@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DivGen</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.4.5/jscolor.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #007AFF;
+            --background-color: #0A0A0A;
+            --text-color: #FFFFFF;
+            --section-bg: rgba(255, 255, 255, 0.05);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .glitch-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        .glitch {
+            font-size: 3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            position: relative;
+            text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff,
+                         0.025em 0.04em 0 #fffc00;
+            animation: glitch 725ms infinite;
+            text-align: center;
+        }
+        .glitch span {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .glitch span:first-child {
+            animation: glitch 500ms infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+            transform: translate(-0.04em, -0.03em);
+            opacity: 0.75;
+        }
+        .glitch span:last-child {
+            animation: glitch 375ms infinite;
+            clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+            transform: translate(0.04em, 0.03em);
+            opacity: 0.75;
+        }
+        @keyframes glitch {
+            0% {
+                text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff,
+                             0.025em 0.04em 0 #fffc00;
+            }
+            15% {
+                text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff,
+                             0.025em 0.04em 0 #fffc00;
+            }
+            16% {
+                text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff,
+                             -0.05em -0.05em 0 #fffc00;
+            }
+            49% {
+                text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff,
+                             -0.05em -0.05em 0 #fffc00;
+            }
+            50% {
+                text-shadow: 0.05em 0.035em 0 #00fffc, 0.03em 0 0 #fc00ff,
+                             0 -0.04em 0 #fffc00;
+            }
+            99% {
+                text-shadow: 0.05em 0.035em 0 #00fffc, 0.03em 0 0 #fc00ff,
+                             0 -0.04em 0 #fffc00;
+            }
+            100% {
+                text-shadow: -0.05em 0 0 #00fffc, -0.025em -0.04em 0 #fc00ff,
+                             -0.04em -0.025em 0 #fffc00;
+            }
+        }
+        .design-section, .code-section {
+            background-color: var(--section-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .design-section h2, .code-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        select:focus, input[type="number"]:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
+        }
+        button {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        pre {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Fira Code', 'Courier New', Courier, monospace;
+            color: #E0E0E0;
+        }
+        .color-type-selector {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .color-type-selector button {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--text-color);
+            margin: 0 0.5rem;
+        }
+        .color-type-selector button.active {
+            background-color: var(--primary-color);
+        }
+        .parameter-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .parameter-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @keyframes buttonPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .pulse {
+            animation: buttonPulse 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glitch-wrapper">
+            <h1 class="glitch">
+                DivGen
+                <span aria-hidden="true">DivGen</span>
+                <span aria-hidden="true">DivGen</span>
+            </h1>
+        </div>
+        
+        <div class="design-section">
+            <h2>Conception</h2>
+            <div class="color-type-selector">
+                <button onclick="selectColorType('solid')" id="solidColorBtn">Couleur Unie</button>
+                <button onclick="selectColorType('gradient')" id="gradientColorBtn">Dégradé</button>
+            </div>
+            
+            <div id="commonParameters" class="parameter-section active">
+                <div class="form-group">
+                    <label for="element">Choisir un élément:</label>
+                    <select id="element">
+                        <option value="div">Div</option>
+                        <option value="button">Bouton</option>
+                        <option value="input">Input</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="width">Largeur (px):</label>
+                    <input type="number" id="width" value="200">
+                </div>
+                <div class="form-group">
+                    <label for="height">Hauteur (px):</label>
+                    <input type="number" id="height" value="100">
+                </div>
+            </div>
+            
+            <div id="solidColorParameters" class="parameter-section active">
+                <div class="form-group">
+                    <label for="backgroundColor">Couleur de fond:</label>
+                    <input type="text" id="backgroundColor" class="jscolor" value="007AFF">
+                </div>
+            </div>
+            
+            <div id="gradientParameters" class="parameter-section">
+                <div class="form-group">
+                    <label for="gradientType">Type de dégradé:</label>
+                    <select id="gradientType">
+                        <option value="linear">Linéaire</option>
+                        <option value="radial">Radial</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="gradientColor1">Couleur de dégradé 1:</label>
+                    <input type="text" id="gradientColor1" class="jscolor" value="007AFF">
+                </div>
+                <div class="form-group">
+                    <label for="gradientColor2">Couleur de dégradé 2:</label>
+                    <input type="text" id="gradientColor2" class="jscolor" value="00BFFF">
+                </div>
+            </div>
+            
+            <button onclick="generateCode()" id="generateBtn">Générer le Code</button>
+        </div>
+        
+        <div class="code-section">
+            <h2>Code Généré</h2>
+            <h3>HTML:</h3>
+            <pre><code id="html-code"></code></pre>
+            <h3>CSS:</h3>
+            <pre><code id="css-code"></code></pre>
+        </div>
+    </div>
+
+    <script>
+        let currentColorType = 'solid';
+
+        function selectColorType(type) {
+            currentColorType = type;
+            
+            // Hide all parameter sections first
+            document.querySelectorAll('.parameter-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Always show common parameters
+            document.getElementById('commonParameters').classList.add('active');
+            
+            // Show relevant color parameters
+            if (type === 'solid') {
+                document.getElementById('solidColorParameters').classList.add('active');
+            } else {
+                document.getElementById('gradientParameters').classList.add('active');
+            }
+            
+            // Update button states
+            document.getElementById('solidColorBtn').classList.toggle('active', type === 'solid');
+            document.getElementById('gradientColorBtn').classList.toggle('active', type === 'gradient');
+            
+            // Add pulse animation to the clicked button
+            const clickedBtn = type === 'solid' ? document.getElementById('solidColorBtn') : document.getElementById('gradientColorBtn');
+            clickedBtn.classList.add('pulse');
+            setTimeout(() => clickedBtn.classList.remove('pulse'), 300);
+        }
+
+        function generateCode() {
+            const element = document.getElementById('element').value;
+            const width = document.getElementById('width').value;
+            const height = document.getElementById('height').value;
+            
+            let backgroundColor, gradientType, gradientColor1, gradientColor2;
+            
+            if (currentColorType === 'solid') {
+                backgroundColor = '#' + document.getElementById('backgroundColor').value;
+            } else {
+                gradientType = document.getElementById('gradientType').value;
+                gradientColor1 = '#' + document.getElementById('gradientColor1').value;
+                gradientColor2 = '#' + document.getElementById('gradientColor2').value;
+            }
+
+            let htmlCode = '';
+            let cssCode = '';
+
+            // Générer le HTML
+            switch(element) {
+                case 'div':
+                    htmlCode = '<div class="custom-element"></div>';
+                    break;
+                case 'button':
+                    htmlCode = '<button class="custom-element">Bouton</button>';
+                    break;
+                case 'input':
+                    htmlCode = '<input type="text" class="custom-element" placeholder="Entrez du texte">';
+                    break;
+            }
+
+            // Générer le CSS
+            cssCode = `.custom-element {
+    width: ${width}px;
+    height: ${height}px;`;
+
+            if (currentColorType === 'solid') {
+                cssCode += `
+    background-color: ${backgroundColor};`;
+            } else if (currentColorType === 'gradient') {
+                if (gradientType === 'linear') {
+                    cssCode += `
+    background: linear-gradient(to right, ${gradientColor1}, ${gradientColor2});`;
+                } else if (gradientType === 'radial') {
+                    cssCode += `
+    background: radial-gradient(circle, ${gradientColor1}, ${gradientColor2});`;
+                }
+            }
+
+            cssCode += `
+}`;
+
+            // Afficher le code généré
+            document.getElementById('html-code').textContent = htmlCode;
+            document.getElementById('css-code').textContent = cssCode;
+
+            // Add pulse animation to the generate button
+            const generateBtn = document.getElementById('generateBtn');
+            generateBtn.classList.add('pulse');
+            setTimeout(() => generateBtn.classList.remove('pulse'), 300);
+        }
+
+        // Initialiser jscolor
+        jscolor.installByClassName("jscolor");
+    </script>
+</body>
+</html>
